@@ -1,0 +1,85 @@
+<html>
+    <head>
+        <title>My Profile</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    </head>
+    <body class="container">
+        <div class="page-header">
+            <h1>Stealing Cookies</h1>
+        </div>
+
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/home">Home</a></li>
+                        <li><a href="/signup">Sign Up</a></li>
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/me">Me</a></li>
+                    </ul>
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/login">Log In</a></li>
+                        <li><a href="/logout">Log Out</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+
+        <div class="container row">
+           <h1>About Me</h1>
+           <div id="desc">Cross-Site Scripting (XSS) attacks are a type of injection, in which malicious scripts are injected
+            into otherwise benign and trusted web sites. XSS attacks occur when an attacker uses a web application
+            to send malicious code, generally in the form of a browser side script, to a different end user.</div>
+
+            <div class="container row">
+                <ul class="nav nav-tabs">
+                    <li id="tab1">
+                        <a href="#1" onclick="chooseTab('1')">Fry</a>
+                    </li>
+                    <li id="tab2">
+                        <a href="#2" onclick="chooseTab('2')">Leela</a>
+                    </li>
+                    <li id="tab3">
+                        <a href="#3" onclick="chooseTab('3')">Bender</a>
+                    </li>
+                </ul>
+
+                <!--
+                    We don't really have tabs - we just dynamically load the content
+                    based on what tab is selected.
+                -->
+
+                <div class="tab-content" id="tab-content">
+
+                </div>
+            </div>
+        </div>
+    </body>
+
+    <script>
+        var chooseTab = function(tabId) {
+            // Update to display the right image.
+            var html = "Image " + parseInt(tabId) + "<br>";
+            html += "<img src='img/" + tabId + ".png'/>";
+            document.getElementById("tab-content").innerHTML = html;
+            console.log(document.cookie);
+
+            // Set the hash in the browser so that if it is bookmarked
+            // we will bookmark the right tab.
+            window.location.hash = tabId;
+        }
+
+        // When the document first loads, choose the right tab based on the
+        // the fragment
+        window.onload = function() {
+            // Get the ID of the tab by removing the # symbol
+            var tabId = window.location.hash.substr(1);
+            if (tabId.length == 0) {
+                tabId = '1';
+            }
+            chooseTab(tabId);
+        }
+    </script>
+</html>

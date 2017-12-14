@@ -1,0 +1,58 @@
+<html>
+    <head>
+        <title>Hello XSS Front End</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    </head>
+    <body class="container">
+        <div class="page-header">
+            <h1>Hello XSS Front End</h1>
+        </div>
+
+        <div class="container row">
+            <ul class="nav nav-tabs">
+                <li id="tab1">
+                    <a href="#1" onclick="chooseTab('1')">Tab 1</a>
+                </li>
+                <li id="tab2">
+                    <a href="#2" onclick="chooseTab('2')">Tab 2</a>
+                </li>
+                <li id="tab3">
+                    <a href="#3" onclick="chooseTab('3')">Tab 3</a>
+                </li>
+            </ul>
+
+            <!--
+                We don't really have tabs - we just dynamically load the content
+                based on what tab is selected.
+            -->
+
+            <div class="tab-content" id="tab-content">
+
+            </div>
+        </div>
+    </body>
+
+    <script>
+        var chooseTab = function(tabId) {
+            // Update to display the right image.
+            var html = "Image " + parseInt(tabId) + "<br>";
+            html += "<img src='img/" + tabId + ".png'/>";
+            document.getElementById("tab-content").innerHTML = html;
+
+            // Set the hash in the browser so that if it is bookmarked
+            // we will bookmark the right tab.
+            window.location.hash = tabId;
+        }
+
+        // When the document first loads, choose the right tab based on the
+        // the fragment
+        window.onload = function() {
+            // Get the ID of the tab by removing the # symbol
+            var tabId = window.location.hash.substr(1);
+            if (tabId.length == 0) {
+                tabId = '1';
+            }
+            chooseTab(tabId);
+        }
+    </script>
+</html>
